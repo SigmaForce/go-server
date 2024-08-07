@@ -22,6 +22,13 @@ FROM messages
 WHERE
     room_id = $1;
 
+-- name: GetRoomMessages :many
+SELECT
+    "id", "room_id", "message", "reaction_count", "answered"
+FROM messages
+WHERE
+    room_id = $1;
+
 -- name: InsertMessage :one
 INSERT INTO messages
     ( "room_id", "message" ) VALUES
@@ -44,7 +51,7 @@ WHERE
     id = $1
 RETURNING reaction_count;
 
--- name: MarkedMessageAsAnswered :exec
+-- name: MarkMessageAsAnswered :exec
 UPDATE messages
 SET
     answered = true
